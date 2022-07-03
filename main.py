@@ -64,7 +64,7 @@ class Assets:
 class App:
 	def __init__(self):
 		# draw on the surface
-		self.Surface = pygame.display.set_mode((640, 480))
+		self.Surface = pygame.display.set_mode((1920, 1080))
 		pygame.display.set_caption("pygameBlackjack")
 		# background is mostly static
 		self.Background = pygame.Surface(self.Surface.get_size())
