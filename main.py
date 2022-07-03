@@ -150,12 +150,21 @@ class App:
 			x = 10 + i * 110
 			self.Surface.blit(self.PlayerHand[i], (x, 295))
 
-		if (self.bGameOver):
+		if self.bGameOver and self.WinNum != 3 and self.LoseNum != 3:
 			for i in range(len(self.DealerHand)):
 				x = 10 + i * 110
 				self.Surface.blit(self.DealerHand[i], (x, 10))
 
 			self.RestartButton.Render()
+
+		if self.WinNum > 2:
+			winResult = self.Font.render(f"Вы победили!", 1, (0, 0, 0))
+			self.Surface.blit(winResult, (565, 472))
+
+		if self.LoseNum > 2:
+			loseResult = self.Font.render(f"Вы проиграли.", 1, (0, 0, 0))
+			self.Surface.blit(loseResult, (565, 498))
+
 
 		else:
 			self.Surface.blit(self.DealerHand[0], (10, 10))
@@ -210,10 +219,6 @@ def main(wins, loses):
 
 	# main loop
 	while (app.bRun):
-		if app.WinNum > 0:
-			return 1
-		elif app.LoseNum > 0:
-			return -1
 		if (app.bGameOver):
 			# pause here so that the player can see the dealer hand
 			while(not app.RestartButton.OnEvent()):
@@ -221,7 +226,13 @@ def main(wins, loses):
 			app.ResetHands()
 		# event handling and rendering method
 		app.PollEvents()
-		app.Render()
+		render = app.Render()
 
+		if app.WinNum > 2 or app.LoseNum > 2:
+			time.sleep(3)
+			if app.WinNum > 2:
+				return 1
+			else:
+				return -1
 
 main(1, 1)
